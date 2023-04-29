@@ -40,6 +40,7 @@ public class XinchoujiluController {
     @RequestMapping("export")
     @IgnoreAuth
     public void export(@RequestBody XinchoujiluEntity xinchoujilu, HttpServletResponse response) throws IOException {
+        System.out.println("--------------------->>>");
         //查询结果
         List<XinchoujiluEntity> list = xinchoujiluService.queryAll(xinchoujilu);
         //1、创建一个webbook，表示一个Excel文件
@@ -68,36 +69,33 @@ public class XinchoujiluController {
             cell.setCellValue("姓名");
             cell.setCellStyle(style);
             cell = row.createCell(4);
-            cell.setCellValue("图片");
-            cell.setCellStyle(style);
-            cell = row.createCell(5);
             cell.setCellValue("部门");
             cell.setCellStyle(style);
-            cell = row.createCell(6);
+            cell = row.createCell(5);
             cell.setCellValue("手机");
             cell.setCellStyle(style);
-            cell = row.createCell(7);
+            cell = row.createCell(6);
             cell.setCellValue("岗位");
             cell.setCellStyle(style);
-            cell = row.createCell(8);
+            cell = row.createCell(7);
             cell.setCellValue("基本工资");
             cell.setCellStyle(style);
-            cell = row.createCell(9);
+            cell = row.createCell(8);
             cell.setCellValue("全勤奖励");
             cell.setCellStyle(style);
-            cell = row.createCell(10);
+            cell = row.createCell(9);
             cell.setCellValue("其他补助");
             cell.setCellStyle(style);
-            cell = row.createCell(11);
+            cell = row.createCell(10);
             cell.setCellValue("扣款事项");
             cell.setCellStyle(style);
-            cell = row.createCell(12);
+            cell = row.createCell(11);
             cell.setCellValue("扣款金额");
             cell.setCellStyle(style);
-            cell = row.createCell(13);
+            cell = row.createCell(12);
             cell.setCellValue("实发工资");
             cell.setCellStyle(style);
-            cell = row.createCell(14);
+            cell = row.createCell(13);
             cell.setCellValue("登记时间");
             cell.setCellStyle(style);
         }
@@ -120,37 +118,35 @@ public class XinchoujiluController {
             HSSFCell cell4 = row.createCell(3);
             cell4.setCellValue(jilu.getYuangongxingming());
             cell4.setCellStyle(style);
-            HSSFCell cell5 = row.createCell(4);
-            cell5.setCellValue(jilu.getTupian());
-            cell5.setCellStyle(style);
-            HSSFCell cell6 = row.createCell(5);
+
+            HSSFCell cell6 = row.createCell(4);
             cell6.setCellValue(jilu.getBumen());
             cell6.setCellStyle(style);
-            HSSFCell cell7 = row.createCell(6);
+            HSSFCell cell7 = row.createCell(5);
             cell7.setCellValue(jilu.getShoujihao());
             cell7.setCellStyle(style);
-            HSSFCell cell8 = row.createCell(7);
+            HSSFCell cell8 = row.createCell(6);
             cell8.setCellValue(jilu.getGangwei());
             cell8.setCellStyle(style);
-            HSSFCell cell9 = row.createCell(8);
+            HSSFCell cell9 = row.createCell(7);
             cell9.setCellValue(jilu.getJibengongzi());
             cell9.setCellStyle(style);
-            HSSFCell cell10 = row.createCell(9);
+            HSSFCell cell10 = row.createCell(8);
             cell10.setCellValue(jilu.getQuanqinjiangli());
             cell10.setCellStyle(style);
-            HSSFCell cell11 = row.createCell(10);
+            HSSFCell cell11 = row.createCell(9);
             cell11.setCellValue(jilu.getQitabuzhu());
             cell11.setCellStyle(style);
-            HSSFCell cell12 = row.createCell(11);
+            HSSFCell cell12 = row.createCell(10);
             cell12.setCellValue(jilu.getKoukuanshixiang());
             cell12.setCellStyle(style);
-            HSSFCell cell13 = row.createCell(12);
+            HSSFCell cell13 = row.createCell(11);
             cell13.setCellValue(jilu.getKoukuanjine());
             cell13.setCellStyle(style);
-            HSSFCell cell14 = row.createCell(13);
+            HSSFCell cell14 = row.createCell(12);
             cell14.setCellValue(jilu.getShifagongzi());
             cell14.setCellStyle(style);
-            HSSFCell cell15 = row.createCell(14);
+            HSSFCell cell15 = row.createCell(13);
             cell15.setCellValue(format.format(jilu.getDengjishijian()));
             cell15.setCellStyle(style);
         }
@@ -158,9 +154,16 @@ public class XinchoujiluController {
             //6、设置请求头
             response.addHeader("Content-Disposition", "attachment;fileName=" + "Excel.xls");
             //7、将excel写到响应体的输出流中
+            File file = new File("D://123.xls");
+            FileOutputStream stream = new FileOutputStream(file);
+
             OutputStream out = response.getOutputStream();
+            wb.write(stream);
+
             wb.write(out);
             wb.close();
+
+            stream.close();
         } catch (Exception e) {
             e.printStackTrace();
         }
