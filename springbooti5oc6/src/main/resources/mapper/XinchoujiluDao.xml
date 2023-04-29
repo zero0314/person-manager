@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.dao.XinchoujiluDao">
+
+    <!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="com.entity.XinchoujiluEntity" id="xinchoujiluMap">
+        <result property="yuefen" column="yuefen"/>
+        <result property="yuangonggonghao" column="yuangonggonghao"/>
+        <result property="yuangongxingming" column="yuangongxingming"/>
+        <result property="tupian" column="tupian"/>
+        <result property="bumen" column="bumen"/>
+        <result property="shoujihao" column="shoujihao"/>
+        <result property="gangwei" column="gangwei"/>
+        <result property="jibengongzi" column="jibengongzi"/>
+        <result property="quanqinjiangli" column="quanqinjiangli"/>
+        <result property="qitabuzhu" column="qitabuzhu"/>
+        <result property="koukuanshixiang" column="koukuanshixiang"/>
+        <result property="koukuanjine" column="koukuanjine"/>
+        <result property="shifagongzi" column="shifagongzi"/>
+        <result property="dengjishijian" column="dengjishijian"/>
+    </resultMap>
+
+    <select id="selectListVO"
+            resultType="com.entity.vo.XinchoujiluVO">
+        SELECT * FROM xinchoujilu xinchoujilu
+        <where>1=1 ${ew.sqlSegment}</where>
+    </select>
+
+    <select id="selectVO"
+            resultType="com.entity.vo.XinchoujiluVO">
+        SELECT xinchoujilu.* FROM xinchoujilu xinchoujilu
+        <where>1=1 ${ew.sqlSegment}</where>
+    </select>
+
+    <select id="selectListView"
+            resultType="com.entity.view.XinchoujiluView">
+
+        SELECT xinchoujilu.* FROM xinchoujilu xinchoujilu
+        <where>1=1 ${ew.sqlSegment}</where>
+    </select>
+
+    <select id="selectView"
+            resultType="com.entity.view.XinchoujiluView">
+        SELECT * FROM xinchoujilu xinchoujilu
+        <where>1=1 ${ew.sqlSegment}</where>
+    </select>
+
+
+    <select id="selectGroup" resultType="map">
+        SELECT ${params.column} , count(1) total FROM xinchoujilu
+        <where>1=1 ${ew.sqlSegment}</where>
+        group by ${params.column}
+        limit 10
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="xinchoujiluMap">
+        select
+        yuefen, yuangonggonghao, yuangongxingming, tupian, bumen, shoujihao, gangwei, jibengongzi,
+        quanqinjiangli, qitabuzhu, koukuanshixiang, koukuanjine, shifagongzi, dengjishijian
+        from xinchoujilu
+        <where>
+            <if test="yuefen != null and yuefen != ''">
+                and yuefen = #{yuefen}
+            </if>
+            <if test="yuangonggonghao != null and yuangonggonghao != ''">
+                and yuangonggonghao = #{yuangonggonghao}
+            </if>
+            <if test="yuangongxingming != null and yuangongxingming != ''">
+                and yuangongxingming = #{yuangongxingming}
+            </if>
+            <if test="tupian != null and tupian != ''">
+                and tupian = #{tupian}
+            </if>
+            <if test="bumen != null and bumen != ''">
+                and bumen = #{bumen}
+            </if>
+            <if test="shoujihao != null and shoujihao != ''">
+                and shoujihao = #{shoujihao}
+            </if>
+            <if test="gangwei != null and gangwei != ''">
+                and gangwei = #{gangwei}
+            </if>
+            <if test="jibengongzi != null">
+                and jibengongzi = #{jibengongzi}
+            </if>
+            <if test="quanqinjiangli != null">
+                and quanqinjiangli = #{quanqinjiangli}
+            </if>
+            <if test="qitabuzhu != null">
+                and qitabuzhu = #{qitabuzhu}
+            </if>
+            <if test="koukuanshixiang != null and koukuanshixiang != ''">
+                and koukuanshixiang = #{koukuanshixiang}
+            </if>
+            <if test="koukuanjine != null">
+                and koukuanjine = #{koukuanjine}
+            </if>
+            <if test="shifagongzi != null and shifagongzi != ''">
+                and shifagongzi = #{shifagongzi}
+            </if>
+            <if test="dengjishijian != null">
+                and dengjishijian = #{dengjishijian}
+            </if>
+        </where>
+    </select>
+
+
+</mapper>

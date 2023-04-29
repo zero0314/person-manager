@@ -1,0 +1,308 @@
+package com.entity;
+
+import com.baomidou.mybatisplus.annotations.TableId;
+import com.baomidou.mybatisplus.annotations.TableName;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import java.lang.reflect.InvocationTargetException;
+
+import java.io.Serializable;
+import java.util.Date;
+import java.util.List;
+
+import org.springframework.format.annotation.DateTimeFormat;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import org.apache.commons.beanutils.BeanUtils;
+import com.baomidou.mybatisplus.annotations.TableField;
+import com.baomidou.mybatisplus.enums.FieldFill;
+import com.baomidou.mybatisplus.enums.IdType;
+
+
+/**
+ * 招聘信息
+ * 数据库通用操作实体类（普通增删改查）
+ * @author 
+ * @email 
+ * @date 2023-03-10 18:22:47
+ */
+@TableName("zhaopinxinxi")
+public class ZhaopinxinxiEntity<T> implements Serializable {
+	private static final long serialVersionUID = 1L;
+
+
+	public ZhaopinxinxiEntity() {
+		
+	}
+	
+	public ZhaopinxinxiEntity(T t) {
+		try {
+			BeanUtils.copyProperties(this, t);
+		} catch (IllegalAccessException | InvocationTargetException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	/**
+	 * 主键id
+	 */
+	@TableId
+	private Long id;
+	/**
+	 * 招聘编号
+	 */
+					
+	private String zhaopinbianhao;
+	
+	/**
+	 * 企业名称
+	 */
+					
+	private String qiyemingcheng;
+	
+	/**
+	 * 联系方式
+	 */
+					
+	private String lianxifangshi;
+	
+	/**
+	 * 邮箱
+	 */
+					
+	private String youxiang;
+	
+	/**
+	 * 招聘地区
+	 */
+					
+	private String zhaopindiqu;
+	
+	/**
+	 * 招聘专业
+	 */
+					
+	private String zhaopinzhuanye;
+	
+	/**
+	 * 招聘封面
+	 */
+					
+	private String zhaopinfengmian;
+	
+	/**
+	 * 招聘职位
+	 */
+					
+	private String zhaopinzhiwei;
+	
+	/**
+	 * 招聘人数
+	 */
+					
+	private Integer zhaopinrenshu;
+	
+	/**
+	 * 职位描述
+	 */
+					
+	private String zhiweimiaoshu;
+	
+	/**
+	 * 基本条件
+	 */
+					
+	private String jibentiaojian;
+	
+	/**
+	 * 工资待遇
+	 */
+					
+	private String gongzidaiyu;
+	
+	/**
+	 * 招聘流程
+	 */
+					
+	private String zhaopinliucheng;
+	
+	
+	@JsonFormat(locale="zh", timezone="GMT+8", pattern="yyyy-MM-dd HH:mm:ss")
+	@DateTimeFormat
+	private Date addtime;
+
+	public Date getAddtime() {
+		return addtime;
+	}
+	public void setAddtime(Date addtime) {
+		this.addtime = addtime;
+	}
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+	/**
+	 * 设置：招聘编号
+	 */
+	public void setZhaopinbianhao(String zhaopinbianhao) {
+		this.zhaopinbianhao = zhaopinbianhao;
+	}
+	/**
+	 * 获取：招聘编号
+	 */
+	public String getZhaopinbianhao() {
+		return zhaopinbianhao;
+	}
+	/**
+	 * 设置：企业名称
+	 */
+	public void setQiyemingcheng(String qiyemingcheng) {
+		this.qiyemingcheng = qiyemingcheng;
+	}
+	/**
+	 * 获取：企业名称
+	 */
+	public String getQiyemingcheng() {
+		return qiyemingcheng;
+	}
+	/**
+	 * 设置：联系方式
+	 */
+	public void setLianxifangshi(String lianxifangshi) {
+		this.lianxifangshi = lianxifangshi;
+	}
+	/**
+	 * 获取：联系方式
+	 */
+	public String getLianxifangshi() {
+		return lianxifangshi;
+	}
+	/**
+	 * 设置：邮箱
+	 */
+	public void setYouxiang(String youxiang) {
+		this.youxiang = youxiang;
+	}
+	/**
+	 * 获取：邮箱
+	 */
+	public String getYouxiang() {
+		return youxiang;
+	}
+	/**
+	 * 设置：招聘地区
+	 */
+	public void setZhaopindiqu(String zhaopindiqu) {
+		this.zhaopindiqu = zhaopindiqu;
+	}
+	/**
+	 * 获取：招聘地区
+	 */
+	public String getZhaopindiqu() {
+		return zhaopindiqu;
+	}
+	/**
+	 * 设置：招聘专业
+	 */
+	public void setZhaopinzhuanye(String zhaopinzhuanye) {
+		this.zhaopinzhuanye = zhaopinzhuanye;
+	}
+	/**
+	 * 获取：招聘专业
+	 */
+	public String getZhaopinzhuanye() {
+		return zhaopinzhuanye;
+	}
+	/**
+	 * 设置：招聘封面
+	 */
+	public void setZhaopinfengmian(String zhaopinfengmian) {
+		this.zhaopinfengmian = zhaopinfengmian;
+	}
+	/**
+	 * 获取：招聘封面
+	 */
+	public String getZhaopinfengmian() {
+		return zhaopinfengmian;
+	}
+	/**
+	 * 设置：招聘职位
+	 */
+	public void setZhaopinzhiwei(String zhaopinzhiwei) {
+		this.zhaopinzhiwei = zhaopinzhiwei;
+	}
+	/**
+	 * 获取：招聘职位
+	 */
+	public String getZhaopinzhiwei() {
+		return zhaopinzhiwei;
+	}
+	/**
+	 * 设置：招聘人数
+	 */
+	public void setZhaopinrenshu(Integer zhaopinrenshu) {
+		this.zhaopinrenshu = zhaopinrenshu;
+	}
+	/**
+	 * 获取：招聘人数
+	 */
+	public Integer getZhaopinrenshu() {
+		return zhaopinrenshu;
+	}
+	/**
+	 * 设置：职位描述
+	 */
+	public void setZhiweimiaoshu(String zhiweimiaoshu) {
+		this.zhiweimiaoshu = zhiweimiaoshu;
+	}
+	/**
+	 * 获取：职位描述
+	 */
+	public String getZhiweimiaoshu() {
+		return zhiweimiaoshu;
+	}
+	/**
+	 * 设置：基本条件
+	 */
+	public void setJibentiaojian(String jibentiaojian) {
+		this.jibentiaojian = jibentiaojian;
+	}
+	/**
+	 * 获取：基本条件
+	 */
+	public String getJibentiaojian() {
+		return jibentiaojian;
+	}
+	/**
+	 * 设置：工资待遇
+	 */
+	public void setGongzidaiyu(String gongzidaiyu) {
+		this.gongzidaiyu = gongzidaiyu;
+	}
+	/**
+	 * 获取：工资待遇
+	 */
+	public String getGongzidaiyu() {
+		return gongzidaiyu;
+	}
+	/**
+	 * 设置：招聘流程
+	 */
+	public void setZhaopinliucheng(String zhaopinliucheng) {
+		this.zhaopinliucheng = zhaopinliucheng;
+	}
+	/**
+	 * 获取：招聘流程
+	 */
+	public String getZhaopinliucheng() {
+		return zhaopinliucheng;
+	}
+
+}

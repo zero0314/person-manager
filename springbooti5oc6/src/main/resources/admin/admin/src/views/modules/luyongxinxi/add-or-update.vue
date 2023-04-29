@@ -1,0 +1,648 @@
+<template>
+	<div class="addEdit-block" style="width: 100%;">
+		<el-form
+			:style='{"padding":"30px","boxShadow":"0 0px 0px rgba(64, 158, 255, .3)","borderRadius":"6px","flexWrap":"wrap","background":"#fff","display":"flex","width":"100%"}'
+			class="add-update-preview"
+			ref="ruleForm"
+			:model="ruleForm"
+			:rules="rules"
+			label-width="100px"
+		>
+			<template >
+				<el-form-item :style='{"width":"50%","margin":"0 0 20px 0"}' class="input" v-if="type!='info'" label="录用编号" prop="luyongbianhao">
+					<el-input v-model="ruleForm.luyongbianhao" placeholder="录用编号" readonly></el-input>
+				</el-form-item>
+				<el-form-item :style='{"width":"50%","margin":"0 0 20px 0"}' class="input" v-else-if="ruleForm.luyongbianhao" label="录用编号" prop="luyongbianhao">
+					<el-input v-model="ruleForm.luyongbianhao" placeholder="录用编号" readonly></el-input>
+				</el-form-item>
+				<el-form-item :style='{"width":"50%","margin":"0 0 20px 0"}' class="input" v-if="type!='info'"  label="求职者账号" prop="qiuzhizhezhanghao">
+					<el-input v-model="ruleForm.qiuzhizhezhanghao" placeholder="求职者账号" clearable  :readonly="ro.qiuzhizhezhanghao"></el-input>
+				</el-form-item>
+				<el-form-item :style='{"width":"50%","margin":"0 0 20px 0"}' v-else class="input" label="求职者账号" prop="qiuzhizhezhanghao">
+					<el-input v-model="ruleForm.qiuzhizhezhanghao" placeholder="求职者账号" readonly></el-input>
+				</el-form-item>
+				<el-form-item :style='{"width":"50%","margin":"0 0 20px 0"}' class="input" v-if="type!='info'"  label="求职者姓名" prop="qiuzhizhexingming">
+					<el-input v-model="ruleForm.qiuzhizhexingming" placeholder="求职者姓名" clearable  :readonly="ro.qiuzhizhexingming"></el-input>
+				</el-form-item>
+				<el-form-item :style='{"width":"50%","margin":"0 0 20px 0"}' v-else class="input" label="求职者姓名" prop="qiuzhizhexingming">
+					<el-input v-model="ruleForm.qiuzhizhexingming" placeholder="求职者姓名" readonly></el-input>
+				</el-form-item>
+				<el-form-item :style='{"width":"50%","margin":"0 0 20px 0"}' class="input" v-if="type!='info'"  label="专业" prop="zhuanye">
+					<el-input v-model="ruleForm.zhuanye" placeholder="专业" clearable  :readonly="ro.zhuanye"></el-input>
+				</el-form-item>
+				<el-form-item :style='{"width":"50%","margin":"0 0 20px 0"}' v-else class="input" label="专业" prop="zhuanye">
+					<el-input v-model="ruleForm.zhuanye" placeholder="专业" readonly></el-input>
+				</el-form-item>
+				<el-form-item :style='{"width":"50%","margin":"0 0 20px 0"}' class="input" v-if="type!='info'"  label="学历" prop="xueli">
+					<el-input v-model="ruleForm.xueli" placeholder="学历" clearable  :readonly="ro.xueli"></el-input>
+				</el-form-item>
+				<el-form-item :style='{"width":"50%","margin":"0 0 20px 0"}' v-else class="input" label="学历" prop="xueli">
+					<el-input v-model="ruleForm.xueli" placeholder="学历" readonly></el-input>
+				</el-form-item>
+				<el-form-item :style='{"width":"50%","margin":"0 0 20px 0"}' class="input" v-if="type!='info'"  label="联系电话" prop="lianxidianhua">
+					<el-input v-model="ruleForm.lianxidianhua" placeholder="联系电话" clearable  :readonly="ro.lianxidianhua"></el-input>
+				</el-form-item>
+				<el-form-item :style='{"width":"50%","margin":"0 0 20px 0"}' v-else class="input" label="联系电话" prop="lianxidianhua">
+					<el-input v-model="ruleForm.lianxidianhua" placeholder="联系电话" readonly></el-input>
+				</el-form-item>
+				<el-form-item :style='{"width":"50%","margin":"0 0 20px 0"}' class="input" v-if="type!='info'"  label="职位名称" prop="zhiweimingcheng">
+					<el-input v-model="ruleForm.zhiweimingcheng" placeholder="职位名称" clearable  :readonly="ro.zhiweimingcheng"></el-input>
+				</el-form-item>
+				<el-form-item :style='{"width":"50%","margin":"0 0 20px 0"}' v-else class="input" label="职位名称" prop="zhiweimingcheng">
+					<el-input v-model="ruleForm.zhiweimingcheng" placeholder="职位名称" readonly></el-input>
+				</el-form-item>
+				<el-form-item :style='{"width":"50%","margin":"0 0 20px 0"}' class="upload" v-if="type!='info' && !ro.luyongtupian" label="录用图片" prop="luyongtupian">
+					<file-upload
+						tip="点击上传录用图片"
+						action="file/upload"
+						:limit="3"
+						:multiple="true"
+						:fileUrls="ruleForm.luyongtupian?ruleForm.luyongtupian:''"
+						@change="luyongtupianUploadChange"
+					></file-upload>
+				</el-form-item>
+				<el-form-item :style='{"width":"50%","margin":"0 0 20px 0"}' class="upload" v-else-if="ruleForm.luyongtupian" label="录用图片" prop="luyongtupian">
+					<img v-if="ruleForm.luyongtupian.substring(0,4)=='http'" class="upload-img" style="margin-right:20px;" v-bind:key="index" :src="ruleForm.luyongtupian.split(',')[0]" width="100" height="100">
+					<img v-else class="upload-img" style="margin-right:20px;" v-bind:key="index" v-for="(item,index) in ruleForm.luyongtupian.split(',')" :src="$base.url+item" width="100" height="100">
+				</el-form-item>
+				<el-form-item :style='{"width":"50%","margin":"0 0 20px 0"}' class="date" v-if="type!='info'" label="就业时间" prop="jiuyeshijian">
+					<el-date-picker
+						value-format="yyyy-MM-dd HH:mm:ss"
+						v-model="ruleForm.jiuyeshijian" 
+						type="datetime"
+						:readonly="ro.jiuyeshijian"
+						placeholder="就业时间"
+					></el-date-picker>
+				</el-form-item>
+				<el-form-item :style='{"width":"50%","margin":"0 0 20px 0"}' class="input" v-else-if="ruleForm.jiuyeshijian" label="就业时间" prop="jiuyeshijian">
+					<el-input v-model="ruleForm.jiuyeshijian" placeholder="就业时间" readonly></el-input>
+				</el-form-item>
+				<el-form-item :style='{"width":"50%","margin":"0 0 20px 0"}' class="date" v-if="type!='info'" label="通知日期" prop="tongzhiriqi">
+					<el-date-picker
+						format="yyyy 年 MM 月 dd 日"
+						value-format="yyyy-MM-dd"
+						v-model="ruleForm.tongzhiriqi" 
+						type="date"
+						:readonly="ro.tongzhiriqi"
+						placeholder="通知日期"
+					></el-date-picker> 
+				</el-form-item>
+				<el-form-item :style='{"width":"50%","margin":"0 0 20px 0"}' class="input" v-else-if="ruleForm.tongzhiriqi" label="通知日期" prop="tongzhiriqi">
+					<el-input v-model="ruleForm.tongzhiriqi" placeholder="通知日期" readonly></el-input>
+				</el-form-item>
+				<el-form-item :style='{"width":"50%","margin":"0 0 20px 0"}' class="input" v-if="type!='info'"  label="录用备注" prop="luyongbeizhu">
+					<el-input v-model="ruleForm.luyongbeizhu" placeholder="录用备注" clearable  :readonly="ro.luyongbeizhu"></el-input>
+				</el-form-item>
+				<el-form-item :style='{"width":"50%","margin":"0 0 20px 0"}' v-else class="input" label="录用备注" prop="luyongbeizhu">
+					<el-input v-model="ruleForm.luyongbeizhu" placeholder="录用备注" readonly></el-input>
+				</el-form-item>
+			</template>
+			<el-form-item :style='{"width":"100%","padding":"0","margin":"0"}' class="btn">
+				<el-button :style='{"border":"0","cursor":"pointer","padding":"0","margin":"0 20px 0 0","outline":"none","color":"rgba(255, 255, 255, 1)","borderRadius":"30px","background":"#93C7B3","width":"128px","lineHeight":"40px","fontSize":"14px","height":"40px"}'  v-if="type!='info'" type="primary" class="btn-success" @click="onSubmit">提交</el-button>
+				<el-button :style='{"border":"0px solid rgba(64, 158, 255, 1)","cursor":"pointer","padding":"0","margin":"0","outline":"none","color":"#fff","borderRadius":"30px","background":"#93C7B3","width":"128px","lineHeight":"40px","fontSize":"14px","height":"40px"}' v-if="type!='info'" class="btn-close" @click="back()">取消</el-button>
+				<el-button :style='{"border":"0px solid rgba(64, 158, 255, 1)","cursor":"pointer","padding":"0","margin":"0","outline":"none","color":"#fff","borderRadius":"30px","background":"#93C7B3","width":"128px","lineHeight":"40px","fontSize":"14px","height":"40px"}' v-if="type=='info'" class="btn-close" @click="back()">返回</el-button>
+			</el-form-item>
+		</el-form>
+    
+
+  </div>
+</template>
+<script>
+// 数字，邮件，手机，url，身份证校验
+import { isNumber,isIntNumer,isEmail,isPhone, isMobile,isURL,checkIdCard } from "@/utils/validate";
+export default {
+	data() {
+		let self = this
+		var validateIdCard = (rule, value, callback) => {
+			if(!value){
+				callback();
+			} else if (!checkIdCard(value)) {
+				callback(new Error("请输入正确的身份证号码"));
+			} else {
+				callback();
+			}
+		};
+		var validateUrl = (rule, value, callback) => {
+			if(!value){
+				callback();
+			} else if (!isURL(value)) {
+				callback(new Error("请输入正确的URL地址"));
+			} else {
+				callback();
+			}
+		};
+		var validateMobile = (rule, value, callback) => {
+			if(!value){
+				callback();
+			} else if (!isMobile(value)) {
+				callback(new Error("请输入正确的手机号码"));
+			} else {
+				callback();
+			}
+		};
+		var validatePhone = (rule, value, callback) => {
+			if(!value){
+				callback();
+			} else if (!isPhone(value)) {
+				callback(new Error("请输入正确的电话号码"));
+			} else {
+				callback();
+			}
+		};
+		var validateEmail = (rule, value, callback) => {
+			if(!value){
+				callback();
+			} else if (!isEmail(value)) {
+				callback(new Error("请输入正确的邮箱地址"));
+			} else {
+				callback();
+			}
+		};
+		var validateNumber = (rule, value, callback) => {
+			if(!value){
+				callback();
+			} else if (!isNumber(value)) {
+				callback(new Error("请输入数字"));
+			} else {
+				callback();
+			}
+		};
+		var validateIntNumber = (rule, value, callback) => {
+			if(!value){
+				callback();
+			} else if (!isIntNumer(value)) {
+				callback(new Error("请输入整数"));
+			} else {
+				callback();
+			}
+		};
+		return {
+			id: '',
+			type: '',
+			
+			
+			ro:{
+				luyongbianhao : false,
+				qiuzhizhezhanghao : false,
+				qiuzhizhexingming : false,
+				zhuanye : false,
+				xueli : false,
+				lianxidianhua : false,
+				zhiweimingcheng : false,
+				luyongtupian : false,
+				jiuyeshijian : false,
+				tongzhiriqi : false,
+				luyongbeizhu : false,
+			},
+			
+			
+			ruleForm: {
+				luyongbianhao: this.getUUID(),
+				qiuzhizhezhanghao: '',
+				qiuzhizhexingming: '',
+				zhuanye: '',
+				xueli: '',
+				lianxidianhua: '',
+				zhiweimingcheng: '',
+				luyongtupian: '',
+				jiuyeshijian: '',
+				tongzhiriqi: '',
+				luyongbeizhu: '',
+			},
+		
+			
+			rules: {
+				luyongbianhao: [
+				],
+				qiuzhizhezhanghao: [
+				],
+				qiuzhizhexingming: [
+				],
+				zhuanye: [
+				],
+				xueli: [
+				],
+				lianxidianhua: [
+					{ validator: validateMobile, trigger: 'blur' },
+				],
+				zhiweimingcheng: [
+				],
+				luyongtupian: [
+				],
+				jiuyeshijian: [
+				],
+				tongzhiriqi: [
+				],
+				luyongbeizhu: [
+				],
+			}
+		};
+	},
+	props: ["parent"],
+	computed: {
+
+
+
+	},
+	created() {
+		this.ruleForm.tongzhiriqi = this.getCurDate()
+	},
+	methods: {
+		
+		// 下载
+		download(file){
+			window.open(`${file}`)
+		},
+		// 初始化
+		init(id,type) {
+			if (id) {
+				this.id = id;
+				this.type = type;
+			}
+			if(this.type=='info'||this.type=='else'){
+				this.info(id);
+			}else if(this.type=='logistics'){
+				this.logistics=false;
+				this.info(id);
+			}else if(this.type=='cross'){
+				var obj = this.$storage.getObj('crossObj');
+				for (var o in obj){
+						if(o=='luyongbianhao'){
+							this.ruleForm.luyongbianhao = obj[o];
+							this.ro.luyongbianhao = true;
+							continue;
+						}
+						if(o=='qiuzhizhezhanghao'){
+							this.ruleForm.qiuzhizhezhanghao = obj[o];
+							this.ro.qiuzhizhezhanghao = true;
+							continue;
+						}
+						if(o=='qiuzhizhexingming'){
+							this.ruleForm.qiuzhizhexingming = obj[o];
+							this.ro.qiuzhizhexingming = true;
+							continue;
+						}
+						if(o=='zhuanye'){
+							this.ruleForm.zhuanye = obj[o];
+							this.ro.zhuanye = true;
+							continue;
+						}
+						if(o=='xueli'){
+							this.ruleForm.xueli = obj[o];
+							this.ro.xueli = true;
+							continue;
+						}
+						if(o=='lianxidianhua'){
+							this.ruleForm.lianxidianhua = obj[o];
+							this.ro.lianxidianhua = true;
+							continue;
+						}
+						if(o=='zhiweimingcheng'){
+							this.ruleForm.zhiweimingcheng = obj[o];
+							this.ro.zhiweimingcheng = true;
+							continue;
+						}
+						if(o=='luyongtupian'){
+							this.ruleForm.luyongtupian = obj[o];
+							this.ro.luyongtupian = true;
+							continue;
+						}
+						if(o=='jiuyeshijian'){
+							this.ruleForm.jiuyeshijian = obj[o];
+							this.ro.jiuyeshijian = true;
+							continue;
+						}
+						if(o=='tongzhiriqi'){
+							this.ruleForm.tongzhiriqi = obj[o];
+							this.ro.tongzhiriqi = true;
+							continue;
+						}
+						if(o=='luyongbeizhu'){
+							this.ruleForm.luyongbeizhu = obj[o];
+							this.ro.luyongbeizhu = true;
+							continue;
+						}
+				}
+				
+
+
+
+
+
+
+
+
+
+
+
+			}
+			
+			
+			// 获取用户信息
+			this.$http({
+				url: `${this.$storage.get('sessionTable')}/session`,
+				method: "get"
+			}).then(({ data }) => {
+				if (data && data.code === 0) {
+					
+					var json = data.data;
+				} else {
+					this.$message.error(data.msg);
+				}
+			});
+			
+			
+		},
+    // 多级联动参数
+
+    info(id) {
+      this.$http({
+        url: `luyongxinxi/info/${id}`,
+        method: "get"
+      }).then(({ data }) => {
+        if (data && data.code === 0) {
+        this.ruleForm = data.data;
+        //解决前台上传图片后台不显示的问题
+        let reg=new RegExp('../../../upload','g')//g代表全部
+        } else {
+          this.$message.error(data.msg);
+        }
+      });
+    },
+
+
+    // 提交
+    onSubmit() {
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	if(this.ruleForm.luyongtupian!=null) {
+		this.ruleForm.luyongtupian = this.ruleForm.luyongtupian.replace(new RegExp(this.$base.url,"g"),"");
+	}
+
+
+
+
+
+
+
+var objcross = this.$storage.getObj('crossObj');
+
+      //更新跨表属性
+       var crossuserid;
+       var crossrefid;
+       var crossoptnum;
+       if(this.type=='cross'){
+                var statusColumnName = this.$storage.get('statusColumnName');
+                var statusColumnValue = this.$storage.get('statusColumnValue');
+                if(statusColumnName!='') {
+                        var obj = this.$storage.getObj('crossObj');
+                       if(statusColumnName && !statusColumnName.startsWith("[")) {
+                               for (var o in obj){
+                                 if(o==statusColumnName){
+                                   obj[o] = statusColumnValue;
+                                 }
+                               }
+                               var table = this.$storage.get('crossTable');
+                             this.$http({
+                                 url: `${table}/update`,
+                                 method: "post",
+                                 data: obj
+                               }).then(({ data }) => {});
+                       } else {
+                               crossuserid=this.$storage.get('userid');
+                               crossrefid=obj['id'];
+                               crossoptnum=this.$storage.get('statusColumnName');
+                               crossoptnum=crossoptnum.replace(/\[/,"").replace(/\]/,"");
+                        }
+                }
+        }
+       this.$refs["ruleForm"].validate(valid => {
+         if (valid) {
+		 if(crossrefid && crossuserid) {
+			 this.ruleForm.crossuserid = crossuserid;
+			 this.ruleForm.crossrefid = crossrefid;
+			let params = { 
+				page: 1, 
+				limit: 10, 
+				crossuserid:this.ruleForm.crossuserid,
+				crossrefid:this.ruleForm.crossrefid,
+			} 
+			this.$http({ 
+				url: "luyongxinxi/page", 
+				method: "get", 
+				params: params 
+			}).then(({ 
+				data 
+			}) => { 
+				if (data && data.code === 0) { 
+				       if(data.data.total>=crossoptnum) {
+					     this.$message.error(this.$storage.get('tips'));
+					       return false;
+				       } else {
+					 this.$http({
+					   url: `luyongxinxi/${!this.ruleForm.id ? "save" : "update"}`,
+					   method: "post",
+					   data: this.ruleForm
+					 }).then(({ data }) => {
+					   if (data && data.code === 0) {
+					     this.$message({
+					       message: "操作成功",
+					       type: "success",
+					       duration: 1500,
+					       onClose: () => {
+						 this.parent.showFlag = true;
+						 this.parent.addOrUpdateFlag = false;
+						 this.parent.luyongxinxiCrossAddOrUpdateFlag = false;
+						 this.parent.search();
+						 this.parent.contentStyleChange();
+					       }
+					     });
+					   } else {
+					     this.$message.error(data.msg);
+					   }
+					 });
+
+				       }
+				} else { 
+				} 
+			});
+		 } else {
+			 this.$http({
+			   url: `luyongxinxi/${!this.ruleForm.id ? "save" : "update"}`,
+			   method: "post",
+			   data: this.ruleForm
+			 }).then(({ data }) => {
+			   if (data && data.code === 0) {
+			     this.$message({
+			       message: "操作成功",
+			       type: "success",
+			       duration: 1500,
+			       onClose: () => {
+				 this.parent.showFlag = true;
+				 this.parent.addOrUpdateFlag = false;
+				 this.parent.luyongxinxiCrossAddOrUpdateFlag = false;
+				 this.parent.search();
+				 this.parent.contentStyleChange();
+			       }
+			     });
+			   } else {
+			     this.$message.error(data.msg);
+			   }
+			 });
+		 }
+         }
+       });
+    },
+    // 获取uuid
+    getUUID () {
+      return new Date().getTime();
+    },
+    // 返回
+    back() {
+      this.parent.showFlag = true;
+      this.parent.addOrUpdateFlag = false;
+      this.parent.luyongxinxiCrossAddOrUpdateFlag = false;
+      this.parent.contentStyleChange();
+    },
+    luyongtupianUploadChange(fileUrls) {
+	    this.ruleForm.luyongtupian = fileUrls;
+    },
+  }
+};
+</script>
+<style lang="scss" scoped>
+	.amap-wrapper {
+		width: 100%;
+		height: 500px;
+	}
+	
+	.search-box {
+		position: absolute;
+	}
+	
+	.el-date-editor.el-input {
+		width: auto;
+	}
+	
+	.add-update-preview .el-form-item /deep/ .el-form-item__label {
+	  	  padding: 0 10px 0 0;
+	  	  color: #666;
+	  	  font-weight: 500;
+	  	  width: 100px;
+	  	  font-size: 14px;
+	  	  line-height: 40px;
+	  	  text-align: right;
+	  	}
+	
+	.add-update-preview .el-form-item /deep/ .el-form-item__content {
+	  margin-left: 100px;
+	}
+	
+	.add-update-preview .el-input /deep/ .el-input__inner {
+	  	  border: 2px solid #797979;
+	  	  border-radius: 0;
+	  	  padding: 0 12px;
+	  	  box-shadow: 0 0 0px rgba(64, 158, 255, .5);
+	  	  outline: none;
+	  	  color: #000;
+	  	  width: 400px;
+	  	  font-size: 14px;
+	  	  height: 40px;
+	  	}
+	
+	.add-update-preview .el-select /deep/ .el-input__inner {
+	  	  border: 2px solid #797979;
+	  	  border-radius: 0;
+	  	  padding: 0 10px;
+	  	  box-shadow: 0 0 0px rgba(64, 158, 255, .5);
+	  	  outline: none;
+	  	  color: #000;
+	  	  width: 200px;
+	  	  font-size: 14px;
+	  	  height: 40px;
+	  	}
+	
+	.add-update-preview .el-date-editor /deep/ .el-input__inner {
+	  	  border: 2px solid #797979;
+	  	  border-radius: 0;
+	  	  padding: 0 10px 0 30px;
+	  	  box-shadow: 0 0 0px rgba(64, 158, 255, .5);
+	  	  outline: none;
+	  	  color: #000;
+	  	  width: 200px;
+	  	  font-size: 14px;
+	  	  height: 40px;
+	  	}
+	
+	.add-update-preview /deep/ .el-upload--picture-card {
+		background: transparent;
+		border: 0;
+		border-radius: 0;
+		width: auto;
+		height: auto;
+		line-height: initial;
+		vertical-align: middle;
+	}
+	
+	.add-update-preview /deep/ .upload .upload-img {
+	  	  border: 1px dashed #797979;
+	  	  cursor: pointer;
+	  	  border-radius: 6px;
+	  	  color: #797979;
+	  	  width: 90px;
+	  	  font-size: 32px;
+	  	  line-height: 90px;
+	  	  text-align: center;
+	  	  height: 90px;
+	  	}
+	
+	.add-update-preview /deep/ .el-upload-list .el-upload-list__item {
+	  	  border: 1px dashed #797979;
+	  	  cursor: pointer;
+	  	  border-radius: 6px;
+	  	  color: #797979;
+	  	  width: 90px;
+	  	  font-size: 32px;
+	  	  line-height: 90px;
+	  	  text-align: center;
+	  	  height: 90px;
+	  	}
+	
+	.add-update-preview /deep/ .el-upload .el-icon-plus {
+	  	  border: 1px dashed #797979;
+	  	  cursor: pointer;
+	  	  border-radius: 6px;
+	  	  color: #797979;
+	  	  width: 90px;
+	  	  font-size: 32px;
+	  	  line-height: 90px;
+	  	  text-align: center;
+	  	  height: 90px;
+	  	}
+	
+	.add-update-preview .el-textarea /deep/ .el-textarea__inner {
+	  	  border: 2px solid #797979;
+	  	  border-radius: 0;
+	  	  padding: 12px;
+	  	  box-shadow: 0 0 0px rgba(64, 158, 255, .5);
+	  	  outline: none;
+	  	  color: #000;
+	  	  width: 400px;
+	  	  font-size: 14px;
+	  	  height: 120px;
+	  	}
+</style>
